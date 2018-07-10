@@ -1,0 +1,133 @@
+{
+  _moving: false
+  _zooming: false
+  transform: wi {tileSize: 512, _renderWorldCopies: true, _minZoom: 0, _maxZoom: 22, latRange: Array(2), width: 964, height: 600, _center: B, _unmodified: false, _zoom: 4.982441804152525, scale: 31.612907072238983, tileZoom: 4, zoomFraction: 0.9824418041525247, angle: 0, _fov: 0.6435011087932844, _pitch: 0, _posMatrixCache: Object, _alignedPosMatrixCache: Object, pixelsToGLUnits: Array(2), _constraining: false, …}
+  _bearingSnap: 7
+  _renderFrameCallback: ƒ bound ()
+  _interactive: true
+  _maxTileCacheSize: null
+  _failIfMajorPerformanceCaveat: false
+  _preserveDrawingBuffer: false
+  _trackResize: true
+  _refreshExpiredTiles: true
+  _fadeDuration: 300
+  _crossSourceCollisions: true
+  _crossFadingFactor: 1
+  _collectResourceTiming: undefined
+  _renderTaskQueue: Vi {_queue: Array(0), _id: 35, _cleared: false, _currentlyRunning: false}
+  _transformRequest: ƒ (t)
+  _container: HTMLDivElement {}
+  _onWindowOnline: ƒ bound ()
+  _onWindowResize: ƒ bound ()
+  _contextLost: ƒ bound ()
+  _contextRestored: ƒ bound ()
+  _update: ƒ bound ()
+  _render: ƒ bound ()
+  _onData: ƒ bound ()
+  _onDataLoading: ƒ bound ()
+  _missingCSSCanary: HTMLDivElement {}
+  _canvasContainer: HTMLDivElement {}
+  _canvas: HTMLCanvasElement {}
+  _controlContainer: HTMLDivElement {}
+  _controlPositions: Object {top-left: HTMLDivElement, top-right: HTMLDivElement, bottom-left: HTMLDivElement, bottom-right: HTMLDivElement}
+  painter: vi {context: Pt, transform: wi, _tileTextures: Object, tileExtentBuffer: tt, tileExtentVAO: V, tileExtentPatternVAO: V, debugBuffer: tt, debugVAO: V, rasterBoundsBuffer: tt, rasterBoundsVAO: V, viewportBuffer: tt, viewportVAO: V, numSublayers: 14, depthEpsilon: 0.0000152587890625, depthRboNeedsClear: true, emptyProgramConfiguration: Zn, crossTileSymbolIndex: Oe, width: 964, height: 600, style: i, …}
+  _listeners: Object {move: Array(1), zoom: Array(1), sourcedata: Array(2), moveend: Array(1), resize: Array(2), style.load: Array(1), data: Array(1), dataloading: Array(1), rotate: Array(1), load: Array(2)}
+  scrollZoom: zi {_map: o, _el: HTMLDivElement, _delta: 0, _onTimeout: ƒ bound (), _onScrollFrame: ƒ bound (), _enabled: true, _aroundCenter: false, _lastWheelEventTime: 133459.1000000073, _type: "wheel", _lastValue: 100, _timeout: null, _lastWheelEvent: WheelEvent, _active: false, _around: B, _aroundPoint: Object, _frameId: null, _startZoom: 6.142478838526428, _prevEase: Object, _easing: ƒ (t), _finishTimeout: 122}
+  boxZoom: Ai {_map: o, _el: HTMLDivElement, _container: HTMLDivElement, _onMouseMove: ƒ bound (), _onMouseUp: ƒ bound (), _onKeyDown: ƒ bound (), _enabled: true}
+  dragRotate: Li {_map: o, _el: HTMLDivElement, _state: "enabled", _button: "right", _bearingSnap: 7, _pitchWithRotate: true, onMouseDown: ƒ bound (), _onMouseMove: ƒ bound (), _onMouseUp: ƒ bound (), _onBlur: ƒ bound (), _onDragFrame: ƒ bound ()}
+  dragPan: Ri {_map: o, _el: HTMLDivElement, _state: "enabled", _onMove: ƒ bound (), _onMouseUp: ƒ bound (), _onTouchEnd: ƒ bound (), _onBlur: ƒ bound (), _onDragFrame: ƒ bound ()}
+  keyboard: Pi {_map: o, _el: HTMLDivElement, _onKeyDown: ƒ bound (), _enabled: true}
+  doubleClickZoom: Bi {_map: o, _onZoomEnd: ƒ bound (), _enabled: true}
+  touchZoomRotate: Fi {_map: o, _el: HTMLDivElement, _onMove: ƒ bound (), _onEnd: ƒ bound (), _onTouchFrame: ƒ bound (), _enabled: true, _aroundCenter: false}
+  _hash: false
+  style: i {map: o, dispatcher: e, imageManager: E, glyphManager: A, lineAtlas: R, crossTileSymbolIndex: Oe, _layers: Object, _order: Array(153), sourceCaches: Object, zoomHistory: Vr, _loaded: true, _changed: false, _updatedLayers: Object, _removedLayers: Object, _updatedSources: Object, _updatedPaintProps: Object, _rtlTextPluginCallback: ƒ (t), _listeners: Object, _eventedParent: o, _eventedParentData: Object, …}
+  _styleDirty: undefined
+  _sourcesDirty: false
+  _frameId: null
+  _placementDirty: false
+  _loaded: true
+}
+
+
+map = {
+  let map = this;
+  
+  if (!map) {
+    map = new mapboxgl.Map({
+      container: container,
+      center: [ 4.35, 50.84],
+      zoom: 5,
+      style: 'mapbox://styles/mapbox/dark-v9'
+    });
+    
+    // add controls
+    map.addControl(new mapboxgl.NavigationControl(), 'top-right');
+    map.addControl(new mapboxgl.GeolocateControl());
+    // map.addControl(new mapboxgl.AttributionControl({compact: true}))
+    // map.addControl(new mapboxgl.ScaleControl());
+    map.addControl(new mapboxgl.FullscreenControl());
+    
+    // add 3d buildings
+    map.on('load',function(){
+      var layers = map.getStyle().layers;	
+        var labelLayerId;
+        for (var i = 0; i < layers.length; i++){
+          if (layers[i].type === 'symbol' && layers[i].layout['text-field']){
+            labelLayerId = layers[i].id;
+            break;
+            }
+        }
+        map.addLayer({
+          'id': '3d-buildings',
+          'source': 'composite',
+          'source-layer': 'building',
+          'filter': ['==', 'extrude', 'true'],
+          'type': 'fill-extrusion',
+          'minzoom': 13,
+          'paint': {
+            'fill-extrusion-color':'#aaaaaa',
+            'fill-extrusion-height':[
+              "interpolate",["linear"],["zoom"],
+              13,0,
+              13.05,["get","height"]
+            ],
+            'fill-extrusion-base':[
+              "interpolate", ["linear"], ["zoom"],
+                    13, 0,
+                    13.05, ["get", "min_height"]
+            ],
+            'fill-extrusion-opacity':.65
+          }
+        },labelLayerId);    
+    })
+  }
+
+  
+  // Wait until the map loads, then yield the container again.
+  yield new Promise(resolve => {
+    if (map.loaded()) resolve(map);
+    else map.on('load', () => resolve(map));
+  });
+}
+
+Object {
+  func: Object {signature_: Object}
+  args: Object {image: Object, min: Array(3), max: Array(3), gamma: 0.6}
+  varName: null
+}
+
+tileUrl = {
+  let tokens = image.getMap()
+  
+  let baseUrl = "https://earthengine.googleapis.com/map";
+  let url = [baseUrl, tokens.mapid, "{z}", "{x}", "{y}"].join("/");
+  url += "?token=" + tokens.token;
+
+  return url;
+}
+
+mapboxgl = {  
+  let mapboxgl = await require('mapbox-gl@0.46.0')
+  mapboxgl.accessToken = 'pk.eyJ1Ijoic2lnZ3lmIiwiYSI6Il8xOGdYdlEifQ.3-JZpqwUa3hydjAJFXIlMA'
+  return mapboxgl
+}
