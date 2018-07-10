@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset=utf-8 />
+<title>Forest Cover, South Sudan</title>
+  
+  <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no' />
+  <script src='http://api.tiles.mapbox.com/mapbox.js/v1.5.2/mapbox.js'></script>
+  <link href='http://api.tiles.mapbox.com/mapbox.js/v1.5.2/mapbox.css' rel='stylesheet' />
+  
+  <style>
+    body { margin:0; padding:0; font-family: 'Noto Sans', sans-serif; }
+    #map { position:absolute; top:0; bottom:0; width:100%; }
+    #footer {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: rgba(100,100,100,0.8);
+      z-index: 999;
+      overflow: auto;
+      padding: 5px;
+      opacity: 0.95;
+      color: #fff;
+    }
+    
+    .info {
+      padding: 6px 8px;
+      font: 14px/16px Arial, Helvetica, sans-serif;
+      background: #FFF;
+      background: rgba(255,255,255,0.8);
+      box-shadow: 0 0 15px rgba(0,0,0,0.2);
+      border-radius: 5px;
+    }
+    
+    .info h4 {
+      margin: 0 0 5px;
+      color: #777;
+    }
+  </style>
+</head>
+<body>
+<div id='map'></div>
+
+<div id="footer">
+    <div class="container" style="padding-left:20px;">
+      <h2>Forest Cover Change, 2000-2012</h2>
+
+      <h4>Forest Cover change in South Sudan from pre-independence to 2012 - <br />as reported by <a href="http://www.sciencemag.org/lookup/doi/10.1126/science.1244693" target="_blank">Hansen et al. 2013</a></h4>
+    </div>
+  </div>
+
+<script>
+var map = L.map('map', {maxZoom: 12}).setView([7, 30], 7);
+L.mapbox.tileLayer('landplanner.map-sa4pz9ny').addTo(map);
+
+L.control.layers({
+    '% Forest Cover 2010': L.tileLayer('http://earthengine.google.org/static/hansen_2013/tree_alpha/{z}/{x}/{y}.png').addTo(map),
+    'Loss/Extent/Gain (Red/Green/Blue)': L.tileLayer('http://earthengine.google.org/static/hansen_2013/loss_forest_gain/{z}/{x}/{y}.png'),
+    'Loss': L.tileLayer('http://earthengine.google.org/static/hansen_2013/loss/{z}/{x}/{y}.png'),
+    'Gain': L.tileLayer('http://earthengine.google.org/static/hansen_2013/gain/{z}/{x}/{y}.png')
+}, {
+    // empty of checkboxes
+    }).addTo(map);
+
+var topPane = map._createPane('leaflet-top-pane', map.getPanes().mapPane);
+  var topLayer = new L.mapbox.tileLayer('landplanner.map-0wnm9063', {
+    maxZoom: 17
+  }).addTo(map);
+  topPane.appendChild(topLayer.getContainer());
+  topLayer.setZIndex(7);
+</script>
+</body>
+</html>
