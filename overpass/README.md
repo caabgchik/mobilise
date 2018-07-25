@@ -1,64 +1,74 @@
-Dominique92.MyLeaflet
-=====================
+Leaflet JSON Layer
+============
 
-Leaflet extensions for
-* GeoJson ajax layers,
-* Multi vendors maps &amp; projections:
+Simple way for transform any JSON data source in a Leaflet Layer!
+
+A Dynamic Leaflet Layer that load JSON data in layer in the form of markers with attributes
+
+and minimize remote requests with caching system
+
+Tested in Leaflet 0.7 and 1.1
+
+# Options
+| Option		| Data	  | Description                       |
+| ------------- | --------| ----------------------------------------- |
+| url           | String  | remote url                                |
+| jsonpParam    | String  | callback parameter name for jsonp request append to url |
+| jsonpParam    | String  | callback parameter name for jsonp request append to url |
+| callData	    | String  | custom function for data source, params: (req: url|bbox, callback: func), return {abort: func} or jQuery jqXHR Object |
+| **Filtering**   |         |   |                                      
+| propertyItems	| String  | json property used contains data items |
+| propertyLoc	| String  | json property used as Latlng of marker, if is array: *['lat','lon']* select double fields |
+| locAsGeoJSON	| String  | interpret location data as [lon, lat] value pair instead of [lat, lon] |
+| propertyTitle	| String  | json property used as title in marker |
+| filterData	| String  | function for pre-filter data |
+| **Rendering**   |         |   |
+| dataToMarker	| String  | function that will be used for creating markers from json points |
+| onEachMarker	| String  | function called on each marker created, similar to option onEachFeature of L.GeoJSON |
+| layerTarget	| String  | pre-existing layer to add markers(*L.LayerGroup*, *L.MarkerClusterGroup*) |
+| buildPopup	| String  | function popup builder |
+| optsPopup	    | String  | popup options |
+| buildIcon	    | String  | function icon builder |
+| **Caching**     |         |  |
+| minShift	    | String | min shift for update data(in meters) |
+| precision	    | String | number of digit send to server for lat,lng precision |
+| updateOutBounds| String | request new data only if current bounds higher than last bounds |
+
+# Events
+| Event			 | Data			  | Description                               |
+| ---------------------- | ---------------------- | ----------------------------------------- |
+| 'dataloading' | {req: url|bbox} | fired before ajax/jsonp request, req is bbox if url option is null |
+| 'dataloaded'	| {data: json}	  | fired on ajax/jsonp request success |
+
+# Usage
+
 ```
-- OSM, Maps.Refuges.Info
-- ThunderForest Outdoors, Cycles, Landscape, Transport
-- IGN France, cadastre, photos
-- SwissTopo
-- IDEE España, photos
-- IGM Italie
-- OS Great Britain
-- Kompass Austria
-- Bing Microsoft, photos
-- Google maps, photos
-```
-* Editable position marker with multi-projection position display,
-* Markers, polylines & polygons editor.
-* Keep position, zoom & zoom on cookies
-
-DEMO
-====
-[See a DEMO here](https://dominique92.github.io/MyLeaflet/)
-
-VERSION
-=======
-This master branch is now build on [Leaflet V1.2.0](http://leafletjs.com/).
-
-You can find the old, not anymore supported, MyLeaflet V0.7 [here](https://github.com/Dominique92/MyLeaflet/tree/v0.7)
-
-USAGE
-=====
-* Include MyLeaflet for production (compressed files):
-```html
-<link  href="dist/leaflet.css" rel="stylesheet" />
-<script src="dist/leaflet.js"></script>
-```
-* Dist compressed files generation: run build/index.php
-* For tinny distribution: only copy dist/... files
-
-* Include MyLeaflet for developpement (full sources):
-```html
-<link  href="src/leaflet.css" rel="stylesheet" />
-<script src="src/leaflet.js"></script>
+var l = new L.LayerJSON({url: "search.php?lat1={lat1}&lat2={lat2}&lon1={lon1}&lon2={lon2}" });
+map.addLayer(l);
 ```
 
-FILES
-=====
-* /build/... : Files compression tool.
-* /dist/... : Tinny distribution files.
-* /node_modules/... : Local copy of some Leaflet kernel & pluggins files used in this library.
-* /src/... : Sources specific to MyLeaflet.
-* /src/leaflet.css /src/leaflet.js : List of source files included in this package.
-* /index.html : generic demo on a non PHP server.
-* /index.php : generic demo on a PHP & MySql server.
-* /examples/... : Demo files or ongoing developments.
+# Where
 
-Other Leaflet Plugins from this collection 
-==========================================
-* [Leaflet.GeoJSON.Ajax](https://github.com/Dominique92/Leaflet.GeoJSON.Ajax) remote GeoJSON & OSM overpass layers (Markers, Polylines, Polygons, ...).
-* [Leaflet.Map.MultiVendors](https://github.com/Dominique92/Leaflet.Map.MultiVendors) multi vendors maps & projections.
-* [Leaflet.draw.plus](https://github.com/Dominique92/Leaflet.draw.plus) on line markers, polylines & polygons editing.
+**Demos:**
+
+[http://labs.easyblog.it/maps/leaflet-layerjson](http://labs.easyblog.it/maps/leaflet-layerjson/)
+
+**Source:**
+
+[Github](https://github.com/stefanocudini/leaflet-layerjson)  
+[Bitbucket](https://bitbucket.org/stefanocudini/leaflet-layerjson)  
+[NPM](https://npmjs.org/package/leaflet-layerjson)  
+[Atmosphere](https://atmosphere.meteor.com/package/leaflet-layerjson)
+
+
+# Build
+
+This plugin support [Grunt](http://gruntjs.com/) for building process.
+Therefore the deployment require [NPM](https://npmjs.org/) installed in your system.
+
+After you've made sure to have npm working, run this in command line:
+```
+npm install
+grunt
+```
+
