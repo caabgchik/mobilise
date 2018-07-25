@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+	<title>MyLeaflet</title>
+	<meta charset="utf-8">
+	<link rel="icon" type="image/png" href="//leafletjs.com/docs/images/favicon.ico" />
+
+	<?php if (0) { // Run index.html ?>
+		<!-- MyLeaflet integrated lib -->
+		<link  href="dist/leaflet.css" rel="stylesheet" />
+		<script src="dist/leaflet.js"></script>
+
+	<?php } else { /* Run index.php ?><!-- */
+		// Include list of individual source files for debug
+		echo '<link  href="src/leaflet.css" rel="stylesheet" />'.PHP_EOL;
+		echo '<script src="src/leaflet.js"></script>'.PHP_EOL;
+	}?>
+
+	<!-- Test layers -->
+	<script src="src/Leaflet.GeoJSON.Ajax/src/layers/GeoJSON.Ajax.WRI.js"></script>
+	<script src="src/Leaflet.Map.MultiVendors/examples/keys.js"></script>
+	<link href="examples/index.css" rel="stylesheet" />
+</head>
+
+<body>
+	<p>Leaflet extension for POI & tracks management on multi vendors maps.</p>
+	<p>This demo runs on Leaflet V<script>document.write(L.version)</script><?php if(!@$_GET['dist']) echo" on debug mode."?></p>
+
+	<div id="map"></div>
+
+	<p>See the javascript code of this demo <a href="examples/index.js">here</a> and <a href="src/Leaflet.GeoJSON.Ajax/src/layers/GeoJSON.Ajax.WRI.js">here</a>.</p>
+	<p>To get a local demo, copy the html source of this page on a local .html file & call it from your brother (no PHP required).</p>
+	<p>If some maps (Swiss) doesn't display on this server because of a map licence problems, copy this file on your localhost & run it on the dev map license (see providers docs).</p>
+	<p>Sources & docs on <a href="https://github.com/Dominique92/MyLeaflet">Github: Dominique92/MyLeaflet</a></p>
+
+	<!-- Doc -->
+	<p>Other plugins demos:
+		<a href="src/Leaflet.GeoJSON.Ajax">GeoJSON.Ajax</a> &nbsp;
+		<a href="src/Leaflet.Map.MultiVendors">Map.MultiVendors</a> &nbsp;
+		<a href="src/Leaflet.Marker.coordinates">Marker.coordinates</a> &nbsp;
+		<a href="src/Leaflet.draw.plus">Draw.plus</a> &nbsp;
+	</p>
+
+	<p>Specific layers:
+		<a href="src/Leaflet.Map.MultiVendors/examples/France-IGN.html">France IGN</a>, &nbsp;
+		<a href="src/Leaflet.Map.MultiVendors/examples/SwissTopo.html">SwissTopo</a>, &nbsp;
+		<a href="src/Leaflet.Map.MultiVendors/examples/Spain-IDEE.html">Spain IDEE</a>, &nbsp;
+		<a href="src/Leaflet.Map.MultiVendors/examples/Italy-IGM.html">Italy IGM</a>, &nbsp;
+		<a href="src/Leaflet.GeoJSON.Ajax/examples/osm.html">OSM overpass</a>
+	</p>
+
+	<p>Docs:
+		<a href="http://leafletjs.com/reference.html">Leaflet</a>, &nbsp;
+		<a href="https://github.com/Dominique92/Leaflet.GeoJSON.Ajax#usage">GeoJSON.Ajax</a>
+		<a href="https://github.com/Dominique92/Leaflet.Map.MultiVendors#usage">MultiVendors</a>
+		<a href="https://github.com/Dominique92/Leaflet.draw.plus#usage">Draw.plus</a>
+	</p>
+
+	<p style="position:absolute;top:0;right:0"> 
+		<a href="https://github.com/Dominique92/MyLeaflet"
+			title="Sources & docs">
+			<img src="examples/forkme.png" />
+		</a>
+	</p>
+
+	<a id="test"
+		href="src/Leaflet.GeoJSON.Ajax"
+		style="position:absolute;top:200px;right:0;text-decoration:none;font-size:large"
+		title="Test ajax">
+		&#10144;
+	</a>
+
+	<!-- Insert the javascript after all <div> are defined -->
+	<script src="examples/index.js"></script>
+</body>
+</html>
