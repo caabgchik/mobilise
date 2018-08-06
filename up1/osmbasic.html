@@ -1,0 +1,32 @@
+<head>
+  <link rel="stylesheet" href="css/GLMap.css">
+  <style type="text/css">
+    * {margin: 0; padding: 0;}
+    html, body {height: 100%;}
+    #map {width: 100%; height: 100%;}
+  </style>
+</head>
+
+<body>
+  <div id="map"></div>
+
+  <script src="js/GLMap.js"></script>
+  <script src="js/OSMBuildings-GLMap.js"></script>
+  <script>
+   // create map engine 
+   var map = new GLMap('map', {
+      position: {latitude: 52.514, longitude: 13.35},
+      zoom: 17,
+      rotation: 0,
+      tilt: 40,
+      attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, &copy; <a href="http://cartodb.com/attributions">CartoDB</a>'
+    });
+    
+    // add osmbuildings
+    var osmb = new OSMBuildings({}).addTo(map);
+  
+    // add basemap tilelayer
+    osmb.addMapTiles('http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png');
+  </script>
+</body>
+</head>
