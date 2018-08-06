@@ -74,6 +74,15 @@
 				scene.add( plane );
 
 				objects.push( plane );
+				
+				var geometry = new THREE.PlaneGeometry(600, 600, 9, 9);
+   				var material = new THREE.MeshBasicMaterial({
+        				color: 0x333333, 
+        				wireframe: true
+   				});
+    				var plane2 = new THREE.Mesh(geometry, material);
+    				scene.add(plane2);
+				objects.push( plane2 );
 
 				var material = new THREE.MeshBasicMaterial( { color: 0xff0000, wireframe: true } );
 
