@@ -36,6 +36,23 @@
 
 			init();
 			render();
+			
+			 loadTerrain('../assets/besseggen.bin', function (data){
+        		console.log(data);
+        		var geometry = new THREE.PlaneGeometry(200, 200, 199, 199);
+        		geometry.computeFaceNormals();
+        		geometry.computeVertexNormals();
+        		for (var i = 0, l = geometry.vertices.length; i < l; i++) {
+            		geometry.vertices[i].z = data[i] / 65535 * 100;
+        		}
+        		var material = new THREE.MeshPhongMaterial({
+            			color: 0xdddddd, 
+				wireframe: true
+        		});
+        		var plane = new THREE.Mesh(geometry, material);
+        		plane.castShadow = true;
+        		plane.receiveShadow = true;
+        		scene.add(plane);}
 
 			function init() {
 
