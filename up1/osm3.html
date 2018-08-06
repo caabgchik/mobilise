@@ -123,8 +123,12 @@
 				renderer.setPixelRatio( window.devicePixelRatio );
 				renderer.setSize( window.innerWidth, window.innerHeight );
 				container.appendChild(renderer.domElement);
+				
+				var dragControls = new THREE.DragControls( objects, camera, renderer.domElement );
+				dragControls.addEventListener( 'dragstart', function ( event ) { controls.enabled = false; } );
+				dragControls.addEventListener( 'dragend', function ( event ) { controls.enabled = true; } );
 
-				document.addEventListener( 'mousedown', onDocumentMouseDown, false );
+				//document.addEventListener( 'mousedown', onDocumentMouseDown, false );
 				document.addEventListener( 'keydown', onDocumentKeyDown, false );
 				document.addEventListener( 'keyup', onDocumentKeyUp, false );
 
