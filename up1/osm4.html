@@ -19,6 +19,7 @@
 
 		<script src="js/renderers/Projector.js"></script>
 		<script src="js/renderers/CanvasRenderer.js"></script>
+		<script src="js/controls/DragControls.js"></script>
 
 		<script>
 
@@ -94,6 +95,10 @@
 				directionalLight.position.z = Math.random() - 0.5;
 				directionalLight.position.normalize();
 				scene.add( directionalLight );
+				
+				var dragControls = new THREE.DragControls( objects, camera, renderer.domElement );
+				dragControls.addEventListener( 'dragstart', function ( event ) { controls.enabled = false; } );
+				dragControls.addEventListener( 'dragend', function ( event ) { controls.enabled = true; } );
 
 				renderer = new THREE.CanvasRenderer();
 				renderer.setPixelRatio( window.devicePixelRatio );
@@ -190,7 +195,7 @@
 			}
 
 			function render() {
-
+				controls.update();
 				renderer.render( scene, camera );
 
 			}
