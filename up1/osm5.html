@@ -12,6 +12,8 @@
 <div id="webgl"></div>
 <script src="../lib/three.min.js"></script>
 <script src="../lib/TrackballControls.js"></script> 
+<script src="js/renderers/Projector.js"></script>
+<script src="js/renderers/CanvasRenderer.js"></script>
 <script>
     var width  = window.innerWidth,
         height = window.innerHeight;
@@ -48,6 +50,13 @@
         light.shadowCameraVisible = true;
         light.position.set(0,300,100);
         scene.add(light);
+        
+        var gridHelper = new THREE.GridHelper( 1000, 20 );
+		scene.add( gridHelper );
+        raycaster = new THREE.Raycaster();
+		mouse = new THREE.Vector2();
+        
+        
         render();
         function render() {
             controls.update();    
