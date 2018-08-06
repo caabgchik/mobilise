@@ -19,7 +19,7 @@
 
 		<script src="js/renderers/Projector.js"></script>
 		<script src="js/renderers/CanvasRenderer.js"></script>
-    <script src="js/controls/DragControls.js"></script>
+    		<script src="js/controls/DragControls.js"></script>
 		<script src="js/controls/TrackballControls.js"></script>
 		<script>
 
@@ -50,11 +50,14 @@
 				info.innerHTML = '<a href="http://threejs.org" target="_blank" rel="noopener">three.js</a> - voxel painter<br><strong>click</strong>: add voxel, <strong>shift + click</strong>: remove voxel, <a href="javascript:save()">save .png</a>';
 				container.appendChild( info );
 
-				camera = new THREE.PerspectiveCamera( 40, window.innerWidth / window.innerHeight, 1, 10000 );
-				camera.position.set( 500, 800, 1300 );
-				camera.lookAt( new THREE.Vector3() );
+				//camera = new THREE.PerspectiveCamera( 40, window.innerWidth / window.innerHeight, 1, 10000 );
+				//camera.position.set( 500, 800, 1300 );
+				//camera.lookAt( new THREE.Vector3() );
+				
+				camera = new THREE.PerspectiveCamera( 70, window.innerWidth / window.innerHeight, 1, 5000 );
+				camera.position.z = 800;
         
-        controls = new THREE.TrackballControls( camera );
+        			controls = new THREE.TrackballControls( camera );
 				controls.rotateSpeed = 1.0;
 				controls.zoomSpeed = 1.2;
 				controls.panSpeed = 0.8;
