@@ -103,9 +103,9 @@
 				renderer.setSize( window.innerWidth, window.innerHeight );
 				container.appendChild(renderer.domElement);
 				
-				var dragControls = new THREE.DragControls( objects, camera, renderer.domElement );
-				dragControls.addEventListener( 'dragstart', function ( event ) { controls.enabled = false; } );
-				dragControls.addEventListener( 'dragend', function ( event ) { controls.enabled = true; } );
+				//var dragControls = new THREE.DragControls( objects, camera, renderer.domElement );
+				//dragControls.addEventListener( 'dragstart', function ( event ) { controls.enabled = false; } );
+				//dragControls.addEventListener( 'dragend', function ( event ) { controls.enabled = true; } );
 
 				document.addEventListener( 'mousedown', onDocumentMouseDown, false );
 				document.addEventListener( 'keydown', onDocumentKeyDown, false );
@@ -150,6 +150,9 @@
 							scene.remove( intersect.object );
 
 							objects.splice( objects.indexOf( intersect.object ), 1 );
+							var dragControls = new THREE.DragControls( objects, camera, renderer.domElement );
+				dragControls.addEventListener( 'dragstart', function ( event ) { controls.enabled = false; } );
+				dragControls.addEventListener( 'dragend', function ( event ) { controls.enabled = true; } );
 
 						}
 
