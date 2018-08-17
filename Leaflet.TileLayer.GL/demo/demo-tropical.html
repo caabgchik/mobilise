@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang='en'>
+<meta charset="utf-8">
+<head>
+	<title>Leaflet TileLayer.GL Tropical demo</title>
+
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.1/dist/leaflet.css" />
+<script src="https://unpkg.com/leaflet@1.0.1/dist/leaflet-src.js"></script>
+
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+	<script src="../src/Leaflet.TileLayer.GL.js"></script>
+</head>
+<body>
+
+	<h1><a href='https://gitlab.com/IvanSanchez/Leaflet.TileLayer.GL'>Leaflet.TileLayer.GL</a> Tropical demo</h1>
+
+	<div id="map" style='width:100%; max-height:100%; height:600px;'></div>
+
+	<div>X:<span id="x"></div>
+	<div>Y:<span id="y"></div>
+	<div>Zoom: <span id="zoom"></div>
+
+	<p>In this demo, a WebGL shader takes the <a href='http://maps.stamen.com/toner/'>black-and-white "toner" map style by Stamen</a> and conditionally replaces the color to highlight the tropics and arctic circles.</p>
+
+	<p>This demo uses <code>aCRSCoords</code> instead of <code>aLatLngCoords</code>. In the source code, the latitudes <code>22.5</code> and <code>66.5</code> are replaced with the Y-coordinates <code>2571663</code> and <code>10015051</code>.</p>
+
+	<p>If the <code>LatLng</code> coordinates were used instead, the tropics and arctic circles would shift their position between zoom levels 0 and 5. This is due to WebGL doing a <b>linear</b> interpolation of the lat-lng coordinates for the bounds of each tile.</p>
+
+
+	<script type="text/javascript">
+
+
+var fragmentShader = `
+void main(void) {
+	vec4 texelColour = texture2D(uTexture0, vec2(vTextureCoords.s, vTextureCoords.t));
+	vec4 stop;
+
+	// Color stops. The alpha value represents the latitude minimum for that RGB colour stop.
+	// Latitudes are expressed in EPSG:3875 units, not in degrees of latitude.
+	vec4 stops[5];
+	stops[0] = vec4(0.444, 0.691, 1.0,   -20037508);	// Blue-ish north of -90
+	stops[1] = vec4(0.333, 0.666, 0.333, -10015051);	// Green-ish north of -66.5
+	stops[2] = vec4(0.9, 0.75, 0.35,      -2571663);	// Orange-ish north of -22.5
+	stops[3] = vec4(0.333, 0.666, 0.333,   2571663);	// Green-ish north of 22.5
+	stops[4] = vec4(0.444, 0.691, 1.0,    10015051);	// Blue-ish north of 66.5
+
+	// Find which colour stop we want to use
+	for (int i=0; i < 5; i++) {
+		if (vCRSCoords.y > stops[i].a) {
+			stop = stops[i];
+		}
+	}
+
+	// Multiply the black in the texel by the stop colour
+	gl_FragColor = vec4(
+		vec3(1.0) - (texelColour.rgb) * (vec3(1.0) - stop.rgb)
+	, 1.0);
+}
+`
+		var tileSize = 256;
+
+		var map = L.map('map').fitWorld();
+
+		var antitoner = L.tileLayer.gl({
+			fragmentShader: fragmentShader,
+			tileUrls: ['http://{s}.tile.stamen.com/toner/{z}/{x}/{y}.png']
+		}).addTo(map);
+
+
+		function logEvent(e) { console.log(e.type); }
+
+		map.on('mousemove', function(ev){
+			document.getElementById('x').innerHTML = ev.latlng.lng;
+			document.getElementById('y').innerHTML = ev.latlng.lat;
+		});
+
+		map.on('zoomend', function(ev){
+			document.getElementById('zoom').innerHTML = map.getZoom();
+		});
+
+	</script>
+</body>
+</html>

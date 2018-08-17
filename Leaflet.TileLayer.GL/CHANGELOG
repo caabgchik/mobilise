@@ -1,0 +1,25 @@
+
+# 2.0.0 (2017-05-05)
+
+* Force using a predefined vertex shader, and force the varyings and uniforms in the fragment shader. This will make things simpler for most users. It also breaks backwards compat.
+* Added a interactive REPL!
+
+# 1.1.0
+
+* Added a `aLatLngCoords` attribute
+* Repurposed the `aCRSCoords` attribute: it now handles the tile's CRS coordinates, not its `LatLng` coordinates
+* Added the "Tropical" demo
+
+# 1.0.1
+
+* Switch to subclassing from `GridLayer` instead of `TileLayer` to properly
+  handle async draws and remove glitching.
+* Prettified filenames and updated refs in `package.json`.
+* Fixed CRS coords orientation *again* because GL coords systems are insane.
+* Linting.
+
+# 1.0.0
+
+* Initial release
+* Three demos (mandelbrot, terrain-rbg, antitoner)
+
